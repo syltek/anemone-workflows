@@ -15,9 +15,9 @@ on:
       docker_nexus_token:
         required: true
         description: Token to login into Docker Nexus
-      docker_nexus_password:
+      docker_nexus_username:
         required: true
-        description: Password to login into Docker Nexus
+        description: User name to login into Docker Nexus
     inputs:
       nexus_url:
         required: true
@@ -91,8 +91,8 @@ jobs:
       uses: docker/login-action@v1 
       with:
         registry: ${{ inputs.nexus_url }}
-        username: ${{ secrets.docker_nexus_token }}
-        password: ${{ secrets.docker_nexus_password }}
+        username: ${{ secrets.docker_nexus_username }}
+        password: ${{ secrets.docker_nexus_token }}
         
     - name: Login to GitHub Container Registry
       uses: docker/login-action@v1
