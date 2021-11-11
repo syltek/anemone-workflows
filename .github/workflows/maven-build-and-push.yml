@@ -122,7 +122,7 @@ jobs:
       with:
         valueFile: 'deploy/develop/kustomization.yaml'
         propertyPath: 'images.0.newTag'
-        value: ${{ steps.meta.outputs.tags.0 }}
+        value: ${{ steps.meta.outputs.tags[0] }}
         commitChange: true
         branch: develop
         createPR: false
