@@ -116,3 +116,15 @@ jobs:
         push: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
+
+    - name: YAML Update Action
+      uses: fjogeleit/yaml-update-action@v0.6.1
+      with:
+        valueFile: 'deploy/develop/kustomization.yaml'
+        propertyPath: 'images.0.newTag'
+        value: ${{ steps.meta.outputs.tags.0 }}
+        commitChange: true
+        branch: develop
+        createPR: false
+        updateFile: true
+        message: 'Update image tag'
