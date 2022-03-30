@@ -1,0 +1,31 @@
+name: Build and Verify Anemone services
+
+on:
+  workflow_call:
+    secrets:
+      nexus_user:
+        required: true
+        description: User to login into Nexus
+      nexus_password:
+        required: true
+        description: Password to login into Nexus
+    inputs:
+      java_version:
+        required: true
+        description: Java version to use
+        type: string
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: ./.github/actions/maven-build
+        with:
+          java_version: ${{ inputs.java_version }}
+          nexus_user: ${{ secrets.nexus_user }}
+          nexus_password: ${{ secrets.nexus_password }}
+          branch: ${{ github.base_ref }}
