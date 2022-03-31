@@ -1,4 +1,4 @@
-name: Build and Verify Anemone services
+name: Build Anemone services
 
 on:
   workflow_call:
