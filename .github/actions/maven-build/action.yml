@@ -1,5 +1,5 @@
-name: Build and Verify Anemone services
-description: Build and Verify Anemone services
+name: Build
+description: Builds and verifies Anemone services
 
 inputs:
   java_version:
