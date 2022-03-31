@@ -1,0 +1,32 @@
+name: Anemone Version
+description: Generate version for Anemone Service
+
+inputs:
+  branch_name:
+    required: true
+    type: string
+    description: The branch to put in the version
+
+outputs:
+  version:
+    description: The version of the service
+    value: ${{ steps.version.outputs.replaced }}
+
+runs:
+  using: composite
+
+  steps:
+    - name: Get date
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y%m%d%H%M%S')"
+      shell: bash
+
+    - name: Version
+      uses: frabert/replace-string-action@v2.0
+      id: version
+      with:
+        pattern: '/'
+        string: "${{inputs.branch_name}}-${{steps.date.outputs.date}}-${{github.run_number}}-${{github.sha}}"
+        flags: 'g'
+        replace-with: '-'
+

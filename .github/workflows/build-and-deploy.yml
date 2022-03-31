@@ -1,0 +1,64 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: Build and Deploy Anemone services
+
+on:
+  workflow_call:
+    secrets:
+      nexus_user:
+        required: true
+        description: User to login into Nexus mvn
+      nexus_password:
+        required: true
+        description: Password to login into Nexus
+      dockernexus_username:
+        required: true
+        description: Username to login into Nexus
+      dockernexus_token:
+        required: true
+        description: Password to login into Nexus
+    inputs:
+      java_version:
+        required: true
+        description: Java version to use
+        type: string
+      replicas:
+        required: false
+        description: The number of replicas to deploy
+        type: string
+        default: '2'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v3
+
+      - name: Build and Verify
+        uses: ./.github/actions/maven-build
+
+      - name: Docker build
+        id: docker-build
+        uses: ./.githug/actions/docker-build
+        with:
+          version: ${{ steps.version.outputs.version }}
+
+    outputs:
+      version: ${{ steps.docker-build.outputs.version }}
+      docker_repository: ${{ steps.docker-build.outputs.docker_repository }}
+
+  deploy:
+
+    runs-on: self-hosted
+    needs: build
+
+    steps:
+      - uses: ./.github/workflows/self-hosted-runner-publish.yml
+        with:
+          version: ${{ needs.build.outputs.version }}
+          replicas: ${{ inputs.replicas }}
+          docker_repository: ${{ needs.build.outputs.docker_repository }}
