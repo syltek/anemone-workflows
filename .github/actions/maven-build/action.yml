@@ -61,10 +61,10 @@ runs:
       run: mvn validate -Denforcer.skip=false -Denforcer.skip.validate.dependencies=false -Denforcer.skip.validate.project-version=false
       shell: bash
 
-    - name: Build and test code
-      run: mvn -B clean package -U -DskipITs --file pom.xml
+    - name: Build
+      run: mvn -B clean compile -U --file pom.xml
       shell: bash
 
-    - name: Integration tests
+    - name: Verify
       run: mvn -B verify --file pom.xml
       shell: bash
