@@ -1,0 +1,70 @@
+name: Build
+description: Builds and verifies Anemone services
+
+inputs:
+  java_version:
+    required: true
+    description: Java version to use
+  nexus_user:
+    required: true
+    description: User to login into Nexus
+  nexus_password:
+    required: true
+    description: Password to login into Nexus
+  branch:
+    required: true
+    description: The name of the branch
+
+
+runs:
+  using: composite
+
+  steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: ${{ inputs.java_version }}
+        distribution: 'temurin'
+        cache: maven
+
+    - name: maven-settings-xml-action
+      uses: whelk-io/maven-settings-xml-action@v18
+      with:
+        servers: >
+          [
+            {
+              "id": "anemone-nexus-releases",
+              "username": "${{ inputs.nexus_user }}",
+              "password": "${{ inputs.nexus_password }}"
+            },
+            {
+              "id": "anemone-nexus-public",
+              "username": "${{ inputs.nexus_user }}",
+              "password": "${{ inputs.nexus_password }}"
+            },
+            {
+              "id": "anemone-nexus-central",
+              "username": "${{ inputs.nexus_user }}",
+              "password": "${{ inputs.nexus_password }}"
+            },
+            {
+              "id": "anemone-nexus-snapshots",
+              "username": "${{ inputs.nexus_user }}",
+              "password": "${{ inputs.nexus_password }}"
+            }
+          ]
+
+    - name: Validate project
+      if: ${{ inputs.branch == 'master' || inputs.branch == 'main'  }}
+      run: mvn validate -Denforcer.skip=false -Denforcer.skip.validate.dependencies=false -Denforcer.skip.validate.project-version=false
+      shell: bash
+
+    - name: Build
+      run: mvn -B clean compile -U --file pom.xml
+      shell: bash
+
+    - name: Verify
+      run: mvn -B verify --file pom.xml
+      shell: bash
