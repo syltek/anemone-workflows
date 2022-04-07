@@ -1,0 +1,57 @@
+name: Swarm Deploy
+description: Deploy a service in the Swarm cluster
+
+inputs:
+  version:
+    description: The version of the image to be deployed
+    required: true
+  replicas:
+    description: The number of replicas to deploy
+    required: false
+    default: '2'
+  docker_repository:
+    description: The docker repository of the image
+    required: true
+
+runs:
+  using: composite
+
+  steps:
+    - uses: actions/checkout@v3
+
+    - name: Set common environment variables
+      run: |
+        echo "USE_DATADOG_AGENT=true" >> $GITHUB_ENV
+        echo "HEALTHCHECK_START_PERIOD=300s" >> $GITHUB_ENV         
+        echo "DEPLOY_ORDER=start-first" >> $GITHUB_ENV
+        echo "DOCKER_REPOSITORY=${{inputs.docker_repository}}" >> $GITHUB_ENV
+        echo "SERVICE_VERSION=${{inputs.version}}" >> $GITHUB_ENV
+      shell: bash
+
+    - name: Set develop environment variables
+      if: ${{ github.ref_name == 'develop' }}
+      run: |
+        echo "SPRING_PROFILES_ACTIVE=develop" >> $GITHUB_ENV
+        echo "ENVIRONMENT=develop" >> $GITHUB_ENV
+        echo "REPLICAS=1" >> $GITHUB_ENV
+        echo "SERVICE_DOMAIN=$DOMAIN" >> $GITHUB_ENV
+        echo "JAVA_ENABLE_DEBUG=true" >> $GITHUB_ENV
+        echo "AWS_DOCKER_HOST=ec2-18-197-214-85.eu-central-1.compute.amazonaws.com" >> $GITHUB_ENV
+        echo "AWS_DOCKER_CERT_PATH=/home/github/.docker/machine/machines/awsdevelop/cert.pem" >> $GITHUB_ENV
+      shell: bash
+
+    - name: Set production environment variables
+      if: ${{ github.ref_name == 'master' || github.ref_name == 'main' }}
+      run: |
+        echo "SPRING_PROFILES_ACTIVE=amazon-pro" >> $GITHUB_ENV
+        echo "ENVIRONMENT=pro" >> $GITHUB_ENV
+        echo "REPLICAS=${{inputs.replicas}}" >> $GITHUB_ENV
+        echo "SERVICE_DOMAIN=$DOMAIN-pro" >> $GITHUB_ENV
+        echo "JAVA_ENABLE_DEBUG=null" >> $GITHUB_ENV
+        echo "AWS_DOCKER_HOST=ec2-52-28-129-63.eu-central-1.compute.amazonaws.com" >> $GITHUB_ENV
+        echo "AWS_DOCKER_CERT_PATH=/home/github/.docker/machine/machines/awspro/cert.pem" >> $GITHUB_ENV
+      shell: bash
+
+    - name: "Deployment to AWS - Docker Swarm ${{ env.ENVIRONMENT }}"
+      run: ssh -i /home/github/.docker/machine/machines/awsdevelop/cert.pem -f -L localhost:2374:/var/run/docker.sock ec2-user@${{env.AWS_DOCKER_HOST}} sleep 5; USE_DATADOG_AGENT=${{env.USE_DATADOG_AGENT}} DOCKER_REPOSITORY=${{env.DOCKER_REPOSITORY}} SPRING_PROFILES_ACTIVE=${{env.SPRING_PROFILES_ACTIVE}} JAVA_ENABLE_DEBUG=${{env.JAVA_ENABLE_DEBUG}} SERVICE_DOMAIN=${{env.SERVICE_DOMAIN}} REPLICAS=${{env.REPLICAS}} HEALTHCHECK_START_PERIOD=${{env.HEALTHCHECK_START_PERIOD}} DEPLOY_ORDER=${{env.DEPLOY_ORDER}} docker -Hlocalhost:2374 stack deploy ${{env.SERVICE_DOMAIN}} --with-registry-auth -c docker-compose.yml
+      shell: bash
