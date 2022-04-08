@@ -16,7 +16,6 @@ inputs:
     description: The name of the branch
   deploy:
     required: false
-    type: boolean
     description: Whether to deploy the artifact
     default: false
 

@@ -70,6 +70,8 @@ runs:
 
     - name: Build and push
       uses: docker/bake-action@v1.7.0
+      env:
+        SERVICE_VERSION: ${{ inputs.version }}
       with:
         files: |
           ${{ steps.meta.outputs.bake-file }}
