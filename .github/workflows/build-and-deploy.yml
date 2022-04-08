@@ -40,24 +40,39 @@ jobs:
 
       - name: Build and Verify
         uses: syltek/workflows/.github/actions/maven-build@main
+        with:
+          java_version: ${{ inputs.java_version }}
+          nexus_user: ${{ secrets.nexus_user }}
+          nexus_password: ${{ secrets.nexus_password }}
+          branch: ${{ github.base_ref }}
+
+      - name: Extract version
+        id: version
+        uses: syltek/workflows/.github/actions/anemone-version@main
+        with:
+          branch_name: ${{ github.base_ref }}sion
 
       - name: Docker build
         id: docker-build
         uses: syltek/workflows/.github/actions/docker-build@main
         with:
           version: ${{ steps.version.outputs.version }}
+          dockernexus_username: ${{ secrets.dockernexus_username }}
+          dockernexus_token: ${{ secrets.dockernexus_token }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
     outputs:
-      version: ${{ steps.docker-build.outputs.version }}
+      version: ${{ steps.version.outputs.version }}
       docker_repository: ${{ steps.docker-build.outputs.docker_repository }}
 
-  deploy:
-
-    runs-on: self-hosted
+  self-hosted-deploy:
     needs: build
+    runs-on: self-hosted
+    env:
+      DOMAIN: 'anemone'
 
     steps:
-      - uses: syltek/workflows/.github/workflows/self-hosted-runner-publish.yml@main
+      - uses: syltek/workflows/.github/actions/swarm-deploy@main
         with:
           version: ${{ needs.build.outputs.version }}
           replicas: ${{ inputs.replicas }}
