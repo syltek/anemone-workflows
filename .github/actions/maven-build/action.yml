@@ -79,6 +79,6 @@ runs:
       shell: bash
 
     - name: Deploy
-      if: ${{ inputs.deploy }}
+      if: ${{ inputs.deploy == 'true' }}
       run: mvn deploy -DskipTests
       shell: bash
