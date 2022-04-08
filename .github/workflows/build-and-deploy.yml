@@ -50,7 +50,7 @@ jobs:
         id: version
         uses: syltek/workflows/.github/actions/anemone-version@main
         with:
-          branch_name: ${{ github.base_ref }}sion
+          branch_name: ${{ github.ref_name }}
 
       - name: Docker build
         id: docker-build
