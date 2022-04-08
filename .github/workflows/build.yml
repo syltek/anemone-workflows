@@ -17,7 +17,7 @@ on:
       deploy:
         required: false
         description: Whether to deploy the artifact
-        type: boolean
+        type: string
         default: false
 
 jobs:
