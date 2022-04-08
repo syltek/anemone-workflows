@@ -77,3 +77,5 @@ jobs:
           version: ${{ needs.build.outputs.version }}
           replicas: ${{ inputs.replicas }}
           docker_repository: ${{ needs.build.outputs.docker_repository }}
+          dockernexus_username: ${{ secrets.dockernexus_username }}
+          dockernexus_token: ${{ secrets.dockernexus_token }}
