@@ -12,6 +12,13 @@ inputs:
   docker_repository:
     description: The docker repository of the image
     required: true
+  docker_username:
+    description: The docker registry username
+    required: true
+  docker_password:
+    description: The docker registry password
+    required: true
+
 
 runs:
   using: composite
@@ -50,6 +57,10 @@ runs:
         echo "JAVA_ENABLE_DEBUG=null" >> $GITHUB_ENV
         echo "AWS_DOCKER_HOST=ec2-52-28-129-63.eu-central-1.compute.amazonaws.com" >> $GITHUB_ENV
         echo "AWS_DOCKER_CERT_PATH=/home/github/.docker/machine/machines/awspro/cert.pem" >> $GITHUB_ENV
+      shell: bash
+
+    - name: Docker login
+      run: docker login -u ${{ inputs.docker_username }} -p ${{ secrets.docker_password }} ${{ inputs.docker_registry }}
       shell: bash
 
     - name: "Deployment to AWS - Docker Swarm ${{ env.ENVIRONMENT }}"
