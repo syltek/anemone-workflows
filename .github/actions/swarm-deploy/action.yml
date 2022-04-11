@@ -26,6 +26,12 @@ runs:
   steps:
     - uses: actions/checkout@v3
 
+    - name: Whoami and Gropus
+      run: |
+        echo whoami
+        echo groups
+      shell: bash
+
     - name: Set common environment variables
       run: |
         echo "USE_DATADOG_AGENT=true" >> $GITHUB_ENV
