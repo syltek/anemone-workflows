@@ -12,6 +12,12 @@ inputs:
   docker_repository:
     description: The docker repository of the image
     required: true
+  docker_username:
+    description: The docker registry username
+    required: true
+  docker_password:
+    description: The docker registry password
+    required: true
 
 runs:
   using: composite
@@ -51,6 +57,13 @@ runs:
         echo "AWS_DOCKER_HOST=ec2-52-28-129-63.eu-central-1.compute.amazonaws.com" >> $GITHUB_ENV
         echo "AWS_DOCKER_CERT_PATH=/home/github/.docker/machine/machines/awspro/cert.pem" >> $GITHUB_ENV
       shell: bash
+
+    - name: Docker login
+      uses: docker/login-action@v1
+      with:
+        registry: ${{ inputs.docker_repository }}
+        username: ${{ inputs.docker_username }}
+        password: ${{ inputs.docker_password }}
 
     - name: "Deployment to AWS - Docker Swarm ${{ env.ENVIRONMENT }}"
       run: ssh -i /home/github/.docker/machine/machines/awsdevelop/cert.pem -f -L localhost:2374:/var/run/docker.sock ec2-user@${{env.AWS_DOCKER_HOST}} sleep 5; USE_DATADOG_AGENT=${{env.USE_DATADOG_AGENT}} DOCKER_REPOSITORY=${{env.DOCKER_REPOSITORY}} SERVICE_VERSION=${{env.SERVICE_VERSION}} SPRING_PROFILES_ACTIVE=${{env.SPRING_PROFILES_ACTIVE}} JAVA_ENABLE_DEBUG=${{env.JAVA_ENABLE_DEBUG}} SERVICE_DOMAIN=${{env.SERVICE_DOMAIN}} REPLICAS=${{env.REPLICAS}} HEALTHCHECK_START_PERIOD=${{env.HEALTHCHECK_START_PERIOD}} DEPLOY_ORDER=${{env.DEPLOY_ORDER}} docker -Hlocalhost:2374 stack deploy ${{env.SERVICE_DOMAIN}} --with-registry-auth -c docker-compose.yml
