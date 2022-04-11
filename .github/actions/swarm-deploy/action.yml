@@ -28,8 +28,8 @@ runs:
 
     - name: Whoami and Gropus
       run: |
-        echo whoami
-        echo groups
+        whoami
+        groups
       shell: bash
 
     - name: Set common environment variables
