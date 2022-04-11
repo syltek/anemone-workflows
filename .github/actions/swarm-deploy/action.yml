@@ -60,7 +60,7 @@ runs:
       shell: bash
 
     - name: Docker login
-      run: docker login -u ${{ inputs.docker_username }} -p ${{ secrets.docker_password }} ${{ inputs.docker_registry }}
+      run: docker login -u ${{ inputs.docker_username }} -p ${{ inputs.docker_password }} ${{ inputs.docker_registry }}
       shell: bash
 
     - name: "Deployment to AWS - Docker Swarm ${{ env.ENVIRONMENT }}"
