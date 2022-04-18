@@ -59,12 +59,6 @@ runs:
         echo "AWS_DOCKER_CERT_PATH=/home/github/.docker/machine/machines/awspro/cert.pem" >> $GITHUB_ENV
       shell: bash
 
-    - name: Log
-      run: |
-        whoami
-        docker ps
-      shell: bash
-
     - name: Docker login
       uses: docker/login-action@v1
       with:
