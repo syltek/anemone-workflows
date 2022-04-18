@@ -60,7 +60,9 @@ runs:
       shell: bash
 
     - name: Log
-      run: docker ps
+      run: |
+        docker ps
+        whoami
       shell: bash
 
     - name: Docker login
