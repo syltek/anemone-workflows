@@ -63,7 +63,7 @@ jobs:
 
     outputs:
       version: ${{ steps.version.outputs.version }}
-      docker_repository: ${{ steps.docker-build.outputs.docker_repository }}
+      docker_registry: ${{ steps.docker-build.outputs.docker_registry }}
 
   self-hosted-deploy:
     needs: build
@@ -76,6 +76,6 @@ jobs:
         with:
           version: ${{ needs.build.outputs.version }}
           replicas: ${{ inputs.replicas }}
-          docker_repository: ${{ needs.build.outputs.docker_repository }}
+          docker_registry: ${{ needs.build.outputs.docker_registry }}
           docker_username: ${{ secrets.dockernexus_username }}
           docker_password: ${{ secrets.dockernexus_token }}

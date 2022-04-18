@@ -20,7 +20,7 @@ inputs:
     required: true
 
 outputs:
-  docker_repository:
+  docker_registry:
     description: The docker repository used
     value: ${{ steps.registry.outputs.registry }}
 
@@ -35,7 +35,7 @@ runs:
     - name: Define registry
       id: registry
       run: |
-        if [[ "${{ inputs.container_repository == 'nexus'}}" == "nexus" ]]; then
+        if [[ "${{ inputs.container_repository }}" == "nexus" ]]; then
           echo "::set-output name=registry::nexus.playtomic.io"
         else
           echo "::set-output name=registry::docker.io"
