@@ -73,10 +73,6 @@ runs:
       run: mvn -B verify --file pom.xml
       shell: bash
 
-    - name: log
-      run: echo ${{ inputs.deploy }}
-      shell: bash
-
     - name: Deploy
       if: ${{ inputs.deploy == 'true' }}
       run: mvn deploy -DskipTests
