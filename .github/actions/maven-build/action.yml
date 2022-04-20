@@ -18,6 +18,9 @@ inputs:
     required: false
     description: Whether to deploy the artifact
     default: false
+  commit_ref:
+    required: false
+    description: The commit reference to use
 
 
 runs:
@@ -25,6 +28,12 @@ runs:
 
   steps:
     - uses: actions/checkout@v3
+      if: ${{ input.commit_ref == '' }}
+
+    - uses: actions/checkout@v3
+      if: ${{ input.commit_ref != '' }}
+      with:
+        ref: ${{ input.commit_ref }}
 
     - name: Set up JDK
       uses: actions/setup-java@v2
