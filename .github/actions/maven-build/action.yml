@@ -21,6 +21,7 @@ inputs:
   commit_ref:
     required: false
     description: The commit reference to use
+    default: ''
 
 
 runs:
