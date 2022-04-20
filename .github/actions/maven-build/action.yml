@@ -28,12 +28,12 @@ runs:
 
   steps:
     - uses: actions/checkout@v3
-      if: ${{ input.commit_ref == '' }}
+      if: ${{ inputs.commit_ref == '' }}
 
     - uses: actions/checkout@v3
-      if: ${{ input.commit_ref != '' }}
+      if: ${{ inputs.commit_ref != '' }}
       with:
-        ref: ${{ input.commit_ref }}
+        ref: ${{ inputs.commit_ref }}
 
     - name: Set up JDK
       uses: actions/setup-java@v2
