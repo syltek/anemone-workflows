@@ -19,10 +19,6 @@ on:
         description: Whether to deploy the artifact
         type: string
         default: false
-      commit_ref:
-        required: false
-        description: Commit reference to use
-        type: string
 
 jobs:
   build:
@@ -39,4 +35,3 @@ jobs:
           nexus_password: ${{ secrets.nexus_password }}
           branch: ${{ github.base_ref }}
           deploy: ${{ inputs.deploy }}
-          commit_ref: ${{ inputs.commit_ref }}
