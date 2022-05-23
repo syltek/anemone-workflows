@@ -18,6 +18,14 @@ inputs:
     required: false
     description: Whether to deploy the artifact
     default: false
+  validate-before-compile:
+    required: false
+    description: Whether to validate the project before the mvn compile
+    default: true
+  validate-after-verify:
+    required: false
+    description: Whether to validate the project after the mvn verify
+    default: false
 
 runs:
   using: composite
@@ -60,7 +68,7 @@ runs:
           ]
 
     - name: Validate project
-      if: ${{ inputs.branch == 'master' || inputs.branch == 'main'  }}
+      if: ${{ input.validate-before-compile && (inputs.branch == 'master' || inputs.branch == 'main')  }}
       run: mvn validate -Denforcer.skip=false -Denforcer.skip.validate.dependencies=false -Denforcer.skip.validate.project-version=false
       shell: bash
 
@@ -70,6 +78,11 @@ runs:
 
     - name: Verify
       run: mvn -B verify --file pom.xml
+      shell: bash
+
+    - name: Validate project
+      if: ${{ input.validate-after-verify && (inputs.branch == 'master' || inputs.branch == 'main')  }}
+      run: mvn validate -Denforcer.skip=false -Denforcer.skip.validate.dependencies=false -Denforcer.skip.validate.project-version=false
       shell: bash
 
     - name: Deploy
