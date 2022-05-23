@@ -19,6 +19,16 @@ on:
         description: Whether to deploy the artifact
         type: string
         default: false
+      validate-before-compile:
+        required: false
+        description: Whether to validate the project before the mvn compile
+        type: string
+        default: true
+      validate-after-verify:
+        required: false
+        description: Whether to validate the project after the mvn verify
+        type: string
+        default: false
 
 jobs:
   build:
@@ -35,3 +45,5 @@ jobs:
           nexus_password: ${{ secrets.nexus_password }}
           branch: ${{ github.base_ref }}
           deploy: ${{ inputs.deploy }}
+          validate-before-compile: ${{ inputs.validate-before-compile }}
+          validate-after-compile: ${{ inputs.validate-after-compile }}
