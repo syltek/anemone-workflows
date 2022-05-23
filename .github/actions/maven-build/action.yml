@@ -68,7 +68,7 @@ runs:
           ]
 
     - name: Validate project
-      if: ${{ input.validate-before-compile && (inputs.branch == 'master' || inputs.branch == 'main')  }}
+      if: ${{ inputs.validate-before-compile && (inputs.branch == 'master' || inputs.branch == 'main')  }}
       run: mvn validate -Denforcer.skip=false -Denforcer.skip.validate.dependencies=false -Denforcer.skip.validate.project-version=false
       shell: bash
 
@@ -81,7 +81,7 @@ runs:
       shell: bash
 
     - name: Validate project
-      if: ${{ input.validate-after-verify && (inputs.branch == 'master' || inputs.branch == 'main')  }}
+      if: ${{ inputs.validate-after-verify && (inputs.branch == 'master' || inputs.branch == 'main')  }}
       run: mvn validate -Denforcer.skip=false -Denforcer.skip.validate.dependencies=false -Denforcer.skip.validate.project-version=false
       shell: bash
 
