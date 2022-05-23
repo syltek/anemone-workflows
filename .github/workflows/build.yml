@@ -43,7 +43,7 @@ jobs:
           java_version: ${{ inputs.java_version }}
           nexus_user: ${{ secrets.nexus_user }}
           nexus_password: ${{ secrets.nexus_password }}
-          branch: ${{ github.base_ref }}
+          branch: ${{ github.ref_name }}
           deploy: ${{ inputs.deploy }}
           validate-before-compile: ${{ inputs.validate-before-compile }}
           validate-after-compile: ${{ inputs.validate-after-compile }}
