@@ -46,4 +46,4 @@ jobs:
           branch: ${{ github.ref_name }}
           deploy: ${{ inputs.deploy }}
           validate-before-compile: ${{ inputs.validate-before-compile }}
-          validate-after-compile: ${{ inputs.validate-after-compile }}
+          validate-after-verify: ${{ inputs.validate-after-verify }}
