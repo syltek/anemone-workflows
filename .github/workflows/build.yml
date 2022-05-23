@@ -38,12 +38,20 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - id: branch-name
+        run: |
+          if [ ${{github.event_name}} == "push" ]; then
+            echo "::set-output name=branch_name::${{ github.ref_name }}"
+          elif [ ${{github.event_name}} == "pull_request" ]; then
+            echo "::set-output name=branch_name::${{ github.base_ref }}"
+          fi
+
       - uses: syltek/workflows/.github/actions/maven-build@main
         with:
           java_version: ${{ inputs.java_version }}
           nexus_user: ${{ secrets.nexus_user }}
           nexus_password: ${{ secrets.nexus_password }}
-          branch: ${{ github.ref_name }}
+          branch: ${{ steps.branch-name.outputs.branch_name }}
           deploy: ${{ inputs.deploy }}
           validate-before-compile: ${{ inputs.validate-before-compile }}
           validate-after-verify: ${{ inputs.validate-after-verify }}
