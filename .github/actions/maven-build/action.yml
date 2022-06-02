@@ -73,7 +73,7 @@ runs:
       shell: bash
 
     - name: Build
-      run: mvn -B clean package -U --file pom.xml
+      run: mvn -B clean install -U --file pom.xml
       shell: bash
 
     - name: Verify
