@@ -18,6 +18,12 @@ inputs:
   docker_password:
     description: The docker registry password
     required: true
+  aws_docker_host_dev:
+    description: URL of the aws docker host in develop
+    required: true
+  aws_docker_host_pro:
+    description: URL of the aws docker host in pro
+    required: true
 
 
 runs:
@@ -43,7 +49,7 @@ runs:
         echo "REPLICAS=1" >> $GITHUB_ENV
         echo "SERVICE_DOMAIN=$DOMAIN-develop" >> $GITHUB_ENV
         echo "JAVA_ENABLE_DEBUG=true" >> $GITHUB_ENV
-        echo "AWS_DOCKER_HOST=ec2-18-197-214-85.eu-central-1.compute.amazonaws.com" >> $GITHUB_ENV
+        echo "AWS_DOCKER_HOST=${{ inputs.aws_docker_host_dev }}" >> $GITHUB_ENV
         echo "AWS_DOCKER_CERT_PATH=/home/github/.docker/machine/machines/awsdevelop/cert.pem" >> $GITHUB_ENV
       shell: bash
 
@@ -55,7 +61,7 @@ runs:
         echo "REPLICAS=${{inputs.replicas}}" >> $GITHUB_ENV
         echo "SERVICE_DOMAIN=$DOMAIN" >> $GITHUB_ENV
         echo "JAVA_ENABLE_DEBUG=null" >> $GITHUB_ENV
-        echo "AWS_DOCKER_HOST=ec2-52-28-129-63.eu-central-1.compute.amazonaws.com" >> $GITHUB_ENV
+        echo "AWS_DOCKER_HOST=${{ inputs.aws_docker_host_pro }}" >> $GITHUB_ENV
         echo "AWS_DOCKER_CERT_PATH=/home/github/.docker/machine/machines/awspro/cert.pem" >> $GITHUB_ENV
       shell: bash
 

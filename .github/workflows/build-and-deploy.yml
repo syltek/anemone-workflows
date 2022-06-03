@@ -18,6 +18,12 @@ on:
       dockernexus_token:
         required: true
         description: Password to login into Nexus
+      aws_docker_host_dev:
+        required: true
+        description: URL of the aws docker host in develop
+      aws_docker_host_pro:
+        required: true
+        description: URL of the aws docker host in pro
     inputs:
       java_version:
         required: true
@@ -79,3 +85,5 @@ jobs:
           docker_registry: ${{ needs.build.outputs.docker_registry }}
           docker_username: ${{ secrets.dockernexus_username }}
           docker_password: ${{ secrets.dockernexus_token }}
+          aws_docker_host_dev: ${{ secrets.aws_docker_host_dev }}
+          aws_docker_host_pro: ${{ secrets.aws_docker_host_pro }}
