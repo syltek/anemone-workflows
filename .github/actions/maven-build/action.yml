@@ -72,12 +72,8 @@ runs:
       run: mvn validate -Denforcer.skip=false -Denforcer.skip.validate.dependencies=false -Denforcer.skip.validate.project-version=false
       shell: bash
 
-    - name: Build
+    - name: Build & Install
       run: mvn -B clean install -U --file pom.xml
-      shell: bash
-
-    - name: Verify
-      run: mvn -B verify --file pom.xml
       shell: bash
 
     - name: Validate project
