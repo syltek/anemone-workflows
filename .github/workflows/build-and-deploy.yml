@@ -18,6 +18,12 @@ on:
       dockernexus_token:
         required: true
         description: Password to login into Nexus
+      aws_docker_host_dev:
+        required: true
+        description: URL of the aws docker host in develop
+      aws_docker_host_pro:
+        required: true
+        description: URL of the aws docker host in pro
     inputs:
       java_version:
         required: true
@@ -39,7 +45,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Build and Verify
-        uses: syltek/workflows/.github/actions/maven-build@main
+        uses: syltek/anemone-workflows/.github/actions/maven-build@main
         with:
           java_version: ${{ inputs.java_version }}
           nexus_user: ${{ secrets.nexus_user }}
@@ -48,13 +54,13 @@ jobs:
 
       - name: Extract version
         id: version
-        uses: syltek/workflows/.github/actions/anemone-version@main
+        uses: syltek/anemone-workflows/.github/actions/anemone-version@main
         with:
           branch_name: ${{ github.ref_name }}
 
       - name: Docker build
         id: docker-build
-        uses: syltek/workflows/.github/actions/docker-build@main
+        uses: syltek/anemone-workflows/.github/actions/docker-build@main
         with:
           version: ${{ steps.version.outputs.version }}
           dockernexus_username: ${{ secrets.dockernexus_username }}
@@ -72,10 +78,12 @@ jobs:
       DOMAIN: 'anemone'
 
     steps:
-      - uses: syltek/workflows/.github/actions/swarm-deploy@main
+      - uses: syltek/anemone-workflows/.github/actions/swarm-deploy@main
         with:
           version: ${{ needs.build.outputs.version }}
           replicas: ${{ inputs.replicas }}
           docker_registry: ${{ needs.build.outputs.docker_registry }}
           docker_username: ${{ secrets.dockernexus_username }}
           docker_password: ${{ secrets.dockernexus_token }}
+          aws_docker_host_dev: ${{ secrets.aws_docker_host_dev }}
+          aws_docker_host_pro: ${{ secrets.aws_docker_host_pro }}
