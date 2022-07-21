@@ -37,7 +37,7 @@ runs:
         echo "USE_DATADOG_AGENT=true" >> $GITHUB_ENV
         echo "HEALTHCHECK_START_PERIOD=300s" >> $GITHUB_ENV         
         echo "DEPLOY_ORDER=start-first" >> $GITHUB_ENV
-        echo "DOCKER_REPOSITORY=${{inputs.docker_repository}}" >> $GITHUB_ENV
+        echo "DOCKER_REPOSITORY=${{inputs.docker_registry}}" >> $GITHUB_ENV
         echo "SERVICE_VERSION=${{inputs.version}}" >> $GITHUB_ENV
       shell: bash
 
