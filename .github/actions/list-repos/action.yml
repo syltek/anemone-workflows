@@ -1,0 +1,59 @@
+name: List Repositories
+description: Get the list of repositories
+
+inputs:
+  private_key:
+    required: true
+    description: Password to access GitHub
+  regex_filter:
+    required: false
+    description: A regular expresion to filter repositories
+  excluded_repos:
+    required: false
+    description: A list of repos to exclude from the response
+  exclude_archived:
+    required: false
+    description: Whether to exclude archived repositories from the response or not
+    default: 'false'
+
+outputs:
+  repos:
+    description: The list of repos
+    value: ${{ steps.repos-list.outputs.result }}
+
+runs:
+  using: composite
+
+  steps:
+    - name: Generate token
+      id: generate_token
+      uses: syltek/frontend-workflows/github-app-token@main
+      with:
+        private-key: ${{ inputs.private_key }}
+
+    - name: Get repositories
+      id: repos-list
+      uses: actions/github-script@v6
+      with:
+        github-token: ${{ steps.generate_token.outputs.token }}
+        script: |
+          const regex = '${{inputs.regex_filter}}' !== '' ? new RegExp('${{inputs.regex_filter}}') : null;
+          const excludedRepos = '${{inputs.excluded_repos}}' !== '' ? '${{inputs.excluded_repos}}'.split(',') : null;
+          
+          const opts = github.rest.apps.listReposAccessibleToInstallation.endpoint.merge();
+          
+          let repositories = await github.paginate(opts);
+                    
+          if (regex) {
+            repositories = repositories.filter(repo => regex.test(repo.name));
+          }
+          
+          if (excludedRepos) {
+            repositories = repositories.filter(repo => !excludedRepos.includes(repo.name));          
+          }
+          
+          if (${{inputs.exclude_archived}}) {
+            repositories = repositories.filter(repo => !repo.archived);
+          }
+
+          return repositories.map(repo => repo.name);
