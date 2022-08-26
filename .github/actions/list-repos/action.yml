@@ -4,10 +4,10 @@ description: Get the list of repositories
 inputs:
   private_key:
     required: true
-    description: Password to access GitHub
+    description: Private key to access GitHub
   regex_filter:
     required: false
-    description: A regular expresion to filter repositories
+    description: A regular expresion to filter in repositories
   excluded_repos:
     required: false
     description: A list of repos to exclude from the response
@@ -18,7 +18,7 @@ inputs:
 
 outputs:
   repos:
-    description: The list of repos
+    description: The list of repos as an array of the names
     value: ${{ steps.repos-list.outputs.result }}
 
 runs:
