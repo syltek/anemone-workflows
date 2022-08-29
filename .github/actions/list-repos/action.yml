@@ -56,4 +56,4 @@ runs:
             repositories = repositories.filter(repo => !repo.archived);
           }
 
-          return repositories.map(repo => repo.name);
+          return repositories;
