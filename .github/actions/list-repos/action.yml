@@ -43,7 +43,9 @@ runs:
           const opts = github.rest.apps.listReposAccessibleToInstallation.endpoint.merge();
           
           let repositories = await github.paginate(opts);
-                    
+          
+          console.log(repositories);
+          
           if (regex) {
             repositories = repositories.filter(repo => regex.test(repo.name));
           }
@@ -55,5 +57,7 @@ runs:
           if (${{inputs.exclude_archived}}) {
             repositories = repositories.filter(repo => !repo.archived);
           }
+
+          console.log(repositories);
 
           return repositories;
