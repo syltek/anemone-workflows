@@ -32,7 +32,7 @@ on:
 
 jobs:
   build:
-
+    if: ${{ github.event.commits[0].author.username }} != 'argocd-image-updater'
     runs-on: ubuntu-latest
 
     steps:
