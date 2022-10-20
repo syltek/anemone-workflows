@@ -41,9 +41,9 @@ jobs:
       - id: branch-name
         run: |
           if [ ${{github.event_name}} == "push" ]; then
-            echo "::set-output name=branch_name::${{ github.ref_name }}"
+            echo "branch_name=${{ github.ref_name }}" >> GITHUB_OUTPUT
           elif [ ${{github.event_name}} == "pull_request" ]; then
-            echo "::set-output name=branch_name::${{ github.base_ref }}"
+            echo "branch_name=${{ github.base_ref }}" >> GITHUB_OUTPUT
           fi
 
       - uses: syltek/anemone-workflows/.github/actions/maven-build@main
