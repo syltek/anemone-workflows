@@ -17,10 +17,10 @@ runs:
   steps:
     - name: Get date
       id: date
-      run: echo "date=$(date +'%Y%m%d%H%M%S')" >> GITHUB_OUTPUT
+      run: echo "date=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: Version
       id: version
-      run: echo "replaced=$(echo ${{inputs.branch_name}}-${{steps.date.outputs.date}}-${{github.run_number}}-${{github.sha}}  | sed 's/\//-/g')" >> GITHUB_OUTPUT
+      run: echo "replaced=$(echo ${{inputs.branch_name}}-${{steps.date.outputs.date}}-${{github.run_number}}-${{github.sha}}  | sed 's/\//-/g')" >> $GITHUB_OUTPUT
       shell: bash

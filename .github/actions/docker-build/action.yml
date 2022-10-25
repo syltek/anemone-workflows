@@ -36,9 +36,9 @@ runs:
       id: registry
       run: |
         if [[ "${{ inputs.container_repository }}" == "nexus" ]]; then
-          echo "registry=nexus.playtomic.io" >> GITHUB_OUTPUT
+          echo "registry=nexus.playtomic.io" >> $GITHUB_OUTPUT
         else
-          echo "registry=ghcr.io" >> GITHUB_OUTPUT
+          echo "registry=ghcr.io" >> $GITHUB_OUTPUT
         fi
       shell: bash
 
