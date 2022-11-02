@@ -4,7 +4,6 @@ description: Generate version for Anemone Service
 inputs:
   branch_name:
     required: true
-    type: string
     description: The branch to put in the version
 
 outputs:
@@ -18,15 +17,10 @@ runs:
   steps:
     - name: Get date
       id: date
-      run: echo "::set-output name=date::$(date +'%Y%m%d%H%M%S')"
+      run: echo "date=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: Version
-      uses: frabert/replace-string-action@v2.0
       id: version
-      with:
-        pattern: '/'
-        string: "${{inputs.branch_name}}-${{steps.date.outputs.date}}-${{github.run_number}}-${{github.sha}}"
-        flags: 'g'
-        replace-with: '-'
-
+      run: echo "replaced=$(echo ${{inputs.branch_name}}-${{steps.date.outputs.date}}-${{github.run_number}}-${{github.sha}}  | sed 's/\//-/g')" >> $GITHUB_OUTPUT
+      shell: bash

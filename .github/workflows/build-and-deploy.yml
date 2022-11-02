@@ -45,7 +45,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Build and Verify
-        uses: syltek/anemone-workflows/.github/actions/maven-build@main
+        uses: syltek/anemone-workflows/.github/actions/maven-build@Update_versions_and_replace_deprecated_commands
         with:
           java_version: ${{ inputs.java_version }}
           nexus_user: ${{ secrets.nexus_user }}
@@ -54,13 +54,13 @@ jobs:
 
       - name: Extract version
         id: version
-        uses: syltek/anemone-workflows/.github/actions/anemone-version@main
+        uses: syltek/anemone-workflows/.github/actions/anemone-version@Update_versions_and_replace_deprecated_commands
         with:
           branch_name: ${{ github.ref_name }}
 
       - name: Docker build
         id: docker-build
-        uses: syltek/anemone-workflows/.github/actions/docker-build@main
+        uses: syltek/anemone-workflows/.github/actions/docker-build@Update_versions_and_replace_deprecated_commands
         with:
           version: ${{ steps.version.outputs.version }}
           dockernexus_username: ${{ secrets.dockernexus_username }}
@@ -78,7 +78,7 @@ jobs:
       DOMAIN: 'anemone'
 
     steps:
-      - uses: syltek/anemone-workflows/.github/actions/swarm-deploy@main
+      - uses: syltek/anemone-workflows/.github/actions/swarm-deploy@Update_versions_and_replace_deprecated_commands
         with:
           version: ${{ needs.build.outputs.version }}
           replicas: ${{ inputs.replicas }}
