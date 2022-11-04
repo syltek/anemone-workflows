@@ -79,13 +79,13 @@ runs:
 
     - name: Build and push
       uses: docker/bake-action@v2
-      env:
-        SERVICE_VERSION: ${{ inputs.version }}
       with:
         files: |
           ${{ steps.meta.outputs.bake-file }}
           docker-compose.yml
         push: true
+        # specify SERVICE_VERSION as --build-arg is key, as this is the version we send to Datadog.
         set: |
+          *.args.SERVICE_VERSION=${{ inputs.version }}
           *.cache-from=type=registry,ref=${{ github.repository }}:latest
           *.cache-to=type=inline
