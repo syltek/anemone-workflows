@@ -18,8 +18,8 @@ runs:
 
     - name: Update version develop
       uses: fjogeleit/yaml-update-action@main
+      if: ${{ inputs.branch_name == 'develop' }}
       with:
-        if: ${{ inputs.branch_name == 'develop' }}
         valueFile: 'deploy/develop/kustomization.yaml'
         propertyPath: 'images[0].newTag'
         value: ${{ inputs.version }}
