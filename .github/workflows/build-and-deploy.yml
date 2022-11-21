@@ -37,7 +37,7 @@ on:
 
 jobs:
   build:
-    if: "!(contains(github.event.commits[0].author.name, 'argocd-image-updater') ||contains(github.event.commits[0].author.name, 'GitHubActions'))"
+    if: "!(contains(github.event.commits[0].author.name, 'argocd-image-updater') ||contains(github.event.commits[0].author.name, 'playtomic-bot'))"
     runs-on: ubuntu-latest
 
     steps:

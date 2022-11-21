@@ -16,16 +16,30 @@ runs:
 
   steps:
 
-    - name: Update version develop
+    - name: Set develop environment variables
+      if: ${{ inputs.branch_name == 'develop' }}
+      run: |
+        echo "ENVIRONMENT=develop" >> $GITHUB_ENV
+      shell: bash
+
+    - name: Set production environment variables
+      if: ${{ inputs.branch_name == 'master' || inputs.branch_name == 'main' }}
+      run: |
+        echo "ENVIRONMENT=pro" >> $GITHUB_ENV
+      shell: bash
+
+    - name: Update version in kustomization.yaml
       uses: fjogeleit/yaml-update-action@main
       with:
+        # I would replace this by "is ENVIRONMENT SET?"
+        # if: ${{ env.ENVIRONMENT }}
         if: ${{ inputs.branch_name == 'develop' }}
-        valueFile: 'deploy/develop/kustomization.yaml'
+        valueFile: "deploy/${{ env.ENVIRONMENT }}/kustomization.yaml"
         propertyPath: 'images[0].newTag'
         value: ${{ inputs.version }}
         commit: true
-        message: 'Update Version to ${{ inputs.version }}'
+        message: "build: automatic update - version to ${{ inputs.version }}"
         branch: ${{ inputs.branch_name }}
         token: ${{ inputs.github_token }}
         createPR: false
-        commitUserName: GitHubActions
+        commitUserName: playtomic-bot
