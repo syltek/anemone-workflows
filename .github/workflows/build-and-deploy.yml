@@ -66,13 +66,13 @@ jobs:
           dockernexus_username: ${{ secrets.dockernexus_username }}
           dockernexus_token: ${{ secrets.dockernexus_token }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Commit version
-        id: commit-version
-        uses: syltek/anemone-workflows/.github/actions/commit-version@main
-        with:
-          image_version: ${{ steps.version.outputs.version }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch_name: ${{ github.ref_name }}
+#      - name: Commit version
+#        id: commit-version
+#        uses: syltek/anemone-workflows/.github/actions/commit-version@main
+#        with:
+#          image_version: ${{ steps.version.outputs.version }}
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          branch_name: ${{ github.ref_name }}
 
     outputs:
       version: ${{ steps.version.outputs.version }}
