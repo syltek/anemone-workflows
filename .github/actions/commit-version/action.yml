@@ -28,3 +28,4 @@ runs:
         branch: ${{ inputs.branch_name }}
         token: {{ inputs.github_token }}
         createPR: false
+        commitUserName: GitHubActions
