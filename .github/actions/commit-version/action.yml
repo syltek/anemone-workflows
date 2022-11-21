@@ -26,6 +26,6 @@ runs:
         commit: true
         message: 'Update Version to ${{ inputs.version }}'
         branch: ${{ inputs.branch_name }}
-        token: {{ inputs.github_token }}
+        token: ${{ inputs.github_token }}
         createPR: false
         commitUserName: GitHubActions
