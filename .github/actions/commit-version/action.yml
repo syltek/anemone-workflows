@@ -1,0 +1,31 @@
+name: Commit version
+description: Commit version
+
+inputs:
+  version:
+    description: Version
+    required: true
+  github_token:
+    description: The token to use to authenticate to the github
+    required: true
+  branch_name:
+    required: true
+    description: The branch to commit
+runs:
+  using: composite
+
+  steps:
+
+    - name: Update version develop
+      uses: fjogeleit/yaml-update-action@main
+      with:
+        if: ${{ inputs.branch_name == 'develop' }}
+        valueFile: 'deploy/develop/kustomization.yaml'
+        propertyPath: 'images[0].newTag'
+        value: ${{ inputs.version }}
+        commit: true
+        message: 'Update Version to ${{ inputs.version }}'
+        branch: ${{ inputs.branch_name }}
+        token: {{ inputs.github_token }}
+        createPR: false
+        commitUserName: GitHubActions
