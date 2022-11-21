@@ -70,10 +70,9 @@ jobs:
 #        id: commit-version
 #        uses: syltek/anemone-workflows/.github/actions/commit-version@main
 #        with:
-#          image_version: ${{ steps.version.outputs.version }}
+#          version: ${{ steps.version.outputs.version }}
 #          github_token: ${{ secrets.GITHUB_TOKEN }}
 #          branch_name: ${{ github.ref_name }}
-
     outputs:
       version: ${{ steps.version.outputs.version }}
       docker_registry: ${{ steps.docker-build.outputs.docker_registry }}
