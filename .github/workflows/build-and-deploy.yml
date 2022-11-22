@@ -45,7 +45,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Build and Verify
-        uses: syltek/anemone-workflows/.github/actions/maven-build/action.yml
+        uses: syltek/anemone-workflows/.github/actions/maven-build@main
         with:
           java_version: ${{ inputs.java_version }}
           nexus_user: ${{ secrets.nexus_user }}
@@ -54,25 +54,25 @@ jobs:
 
       - name: Extract version
         id: version
-        uses: syltek/anemone-workflows/.github/actions/anemone-version/action.yml
+        uses: syltek/anemone-workflows/.github/actions/anemone-version@main
         with:
           branch_name: ${{ github.ref_name }}
 
       - name: Docker build
         id: docker-build
-        uses: syltek/anemone-workflows/.github/actions/docker-build/action.yml
+        uses: syltek/anemone-workflows/.github/actions/docker-build@main
         with:
           version: ${{ steps.version.outputs.version }}
           dockernexus_username: ${{ secrets.dockernexus_username }}
           dockernexus_token: ${{ secrets.dockernexus_token }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Commit version
-        id: commit-version
-        uses: syltek/anemone-workflows/.github/actions/commit-version/action.yml
-        with:
-          version: ${{ steps.version.outputs.version }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch_name: ${{ github.ref_name }}
+#      - name: Commit version
+#        id: commit-version
+#        uses: syltek/anemone-workflows/.github/actions/commit-version@main
+#        with:
+#          version: ${{ steps.version.outputs.version }}
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          branch_name: ${{ github.ref_name }}
     outputs:
       version: ${{ steps.version.outputs.version }}
       docker_registry: ${{ steps.docker-build.outputs.docker_registry }}
@@ -84,7 +84,7 @@ jobs:
       DOMAIN: 'anemone'
 
     steps:
-      - uses: syltek/anemone-workflows/.github/actions/swarm-deploy/action.yml
+      - uses: syltek/anemone-workflows/.github/actions/swarm-deploy@main
         with:
           version: ${{ needs.build.outputs.version }}
           replicas: ${{ inputs.replicas }}
