@@ -45,7 +45,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Build and Verify
-        uses: ../actions/maven-build/action.yml
+        uses: ./.github/actions/maven-build/action.yml
         with:
           java_version: ${{ inputs.java_version }}
           nexus_user: ${{ secrets.nexus_user }}
@@ -54,13 +54,13 @@ jobs:
 
       - name: Extract version
         id: version
-        uses: ../actions/anemone-version/action.yml
+        uses: ./.github/actions/anemone-version/action.yml
         with:
           branch_name: ${{ github.ref_name }}
 
       - name: Docker build
         id: docker-build
-        uses: ../actions/docker-build/action.yml
+        uses: ./.github/actions/docker-build/action.yml
         with:
           version: ${{ steps.version.outputs.version }}
           dockernexus_username: ${{ secrets.dockernexus_username }}
@@ -68,7 +68,7 @@ jobs:
           github_token: ${{ secrets./.github_TOKEN }}
       - name: Commit version
         id: commit-version
-        uses: ../actions/commit-version/action.yml
+        uses: ./.github/actions/commit-version/action.yml
         with:
           version: ${{ steps.version.outputs.version }}
           github_token: ${{ secrets./.github_TOKEN }}
@@ -84,7 +84,7 @@ jobs:
       DOMAIN: 'anemone'
 
     steps:
-      - uses: ../actions/swarm-deploy/action.yml
+      - uses: ./.github/actions/swarm-deploy/action.yml
         with:
           version: ${{ needs.build.outputs.version }}
           replicas: ${{ inputs.replicas }}
