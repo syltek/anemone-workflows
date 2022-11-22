@@ -46,7 +46,7 @@ jobs:
             echo "branch_name=${{ github.base_ref }}" >> $GITHUB_OUTPUT
           fi
 
-      - uses: ./.github/actions/maven-build/action.yml
+      - uses: ./.github/actions/maven-build
         with:
           java_version: ${{ inputs.java_version }}
           nexus_user: ${{ secrets.nexus_user }}
