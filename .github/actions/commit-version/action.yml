@@ -30,10 +30,10 @@ runs:
 
     - name: Update version in kustomization.yaml
       uses: fjogeleit/yaml-update-action@main
+      # I would replace this by "is ENVIRONMENT SET?"
+      # if: ${{ env.ENVIRONMENT }}
+      if: ${{ inputs.branch_name == 'develop' }}
       with:
-        # I would replace this by "is ENVIRONMENT SET?"
-        # if: ${{ env.ENVIRONMENT }}
-        if: ${{ inputs.branch_name == 'develop' }}
         valueFile: "deploy/${{ env.ENVIRONMENT }}/kustomization.yaml"
         propertyPath: 'images[0].newTag'
         value: ${{ inputs.version }}
