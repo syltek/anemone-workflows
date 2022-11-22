@@ -37,7 +37,7 @@ runs:
         valueFile: "deploy/${{ env.ENVIRONMENT }}/kustomization.yaml"
         propertyPath: 'images[0].newTag'
         value: ${{ inputs.version }}
-        commit: true
+        commitChange: true
         message: "build: automatic update - version to ${{ inputs.version }}"
         branch: ${{ inputs.branch_name }}
         token: ${{ inputs.github_token }}
