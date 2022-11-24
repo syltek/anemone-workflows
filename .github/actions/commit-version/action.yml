@@ -30,7 +30,8 @@ runs:
 
     - name: Update version in kustomization.yaml
       uses: fjogeleit/yaml-update-action@main
-      if: ${{ env.ENVIRONMENT != null}}
+      #if: ${{ env.ENVIRONMENT != null}}
+      if: ${{ env.ENVIRONMENT == "disabled"}}
       with:
         valueFile: "deploy/${{ env.ENVIRONMENT }}/kustomization.yaml"
         propertyPath: 'images[0].newTag'
