@@ -24,6 +24,9 @@ on:
       aws_docker_host_pro:
         required: true
         description: URL of the aws docker host in pro
+      playtomic_bot_app_private_key:
+        required: true
+        description: The private key to generate our auth token (most likely PLAYTOMIC_BOT_APP_PRIVATE_KEY)
     inputs:
       java_version:
         required: true
