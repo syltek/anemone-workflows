@@ -15,6 +15,11 @@ runs:
   using: composite
 
   steps:
+    # We need fetch-depth: 0 to include the refs. 
+    # We are going to commit the version of the service in the final step.
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
 
     - name: Set develop environment variables
       if: ${{ inputs.branch_name == 'develop' }}
@@ -30,8 +35,7 @@ runs:
 
     - name: Update version in kustomization.yaml
       uses: fjogeleit/yaml-update-action@main
-      #if: ${{ env.ENVIRONMENT != null}}
-      if: ${{ env.ENVIRONMENT == "disabled"}}
+      if: ${{ env.ENVIRONMENT != null}}
       with:
         valueFile: "deploy/${{ env.ENVIRONMENT }}/kustomization.yaml"
         propertyPath: 'images[0].newTag'
