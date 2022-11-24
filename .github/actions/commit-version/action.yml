@@ -46,3 +46,4 @@ runs:
         token: ${{ inputs.github_token }}
         createPR: false
         commitUserName: playtomic-bot
+        commitUserEmail: playtomic-bot@playtomic.io
