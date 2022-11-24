@@ -42,7 +42,11 @@ jobs:
 
     steps:
 
+      # We need fetch-depth: 0 to include the refs. 
+      # We are going to commit the version of the service in the final step.
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 
 
       - name: Build and Verify
         uses: syltek/anemone-workflows/.github/actions/maven-build@main
@@ -66,13 +70,14 @@ jobs:
           dockernexus_username: ${{ secrets.dockernexus_username }}
           dockernexus_token: ${{ secrets.dockernexus_token }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
-#      - name: Commit version
-#        id: commit-version
-#        uses: syltek/anemone-workflows/.github/actions/commit-version@main
-#        with:
-#          version: ${{ steps.version.outputs.version }}
-#          github_token: ${{ secrets.GITHUB_TOKEN }}
-#          branch_name: ${{ github.ref_name }}
+
+      - name: Commit version
+        id: commit-version
+        uses: syltek/anemone-workflows/.github/actions/commit-version@with-commit-version
+        with:
+          version: ${{ steps.version.outputs.version }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch_name: ${{ github.ref_name }}
     outputs:
       version: ${{ steps.version.outputs.version }}
       docker_registry: ${{ steps.docker-build.outputs.docker_registry }}
