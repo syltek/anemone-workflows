@@ -44,8 +44,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
+      # We need fetch-depth: 0 to include the refs. 
+      # We are going to commit the version of the service in the final step.
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Build and Verify
         uses: syltek/anemone-workflows/.github/actions/maven-build@main
@@ -95,6 +98,7 @@ jobs:
       DOMAIN: 'anemone'
 
     steps:
+      - uses: actions/checkout@v3
       - uses: syltek/anemone-workflows/.github/actions/swarm-deploy@main
         with:
           version: ${{ needs.build.outputs.version }}

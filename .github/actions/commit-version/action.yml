@@ -15,12 +15,6 @@ runs:
   using: composite
 
   steps:
-    # We need fetch-depth: 0 to include the refs. 
-    # We are going to commit the version of the service in the final step.
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-
     - name: Set develop environment variables
       if: ${{ inputs.branch_name == 'develop' }}
       run: |
