@@ -35,11 +35,11 @@ runs:
         title: 'Version Updates '
         changes: |
           {
-            "deploy/${{ env.ENVIRONMENT }}/values.yaml": {
-              "spec.template.spec.containers[0].env[0].value": "${{ inputs.version }}"
-            },
-            "deploy/${{ env.ENVIRONMENT }}/kustomization.yaml" : {
+            "deploy/${{ env.ENVIRONMENT }}/kustomization.yaml": {
               "images[0].newTag": "${{ inputs.version }}"
+            },
+            "deploy/${{ env.ENVIRONMENT }}/values.datadog.yaml" : {
+              "spec.template.spec.containers[0].env[0].value": "${{ inputs.version }}"
             }
           }
         commitChange: true
