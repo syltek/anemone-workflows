@@ -80,7 +80,7 @@ jobs:
 
       - name: Commit version
         id: commit-version
-        uses: syltek/anemone-workflows/.github/actions/commit-version@with-commit-version
+        uses: syltek/anemone-workflows/.github/actions/commit-version@main
         with:
           version: ${{ steps.version.outputs.version }}
           github_token: ${{ steps.generate_token.outputs.token }}
