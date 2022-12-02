@@ -27,15 +27,23 @@ runs:
         echo "ENVIRONMENT=pro" >> $GITHUB_ENV
       shell: bash
 
-    - name: Update version in kustomization.yaml
+    - name: Update versions in values.yaml and kustomization.yaml
       uses: fjogeleit/yaml-update-action@main
-      if: ${{ env.ENVIRONMENT != null}}
+
+      if: ${{ inputs.branch_name == 'develop' }}
       with:
-        valueFile: "deploy/${{ env.ENVIRONMENT }}/kustomization.yaml"
-        propertyPath: 'images[0].newTag'
-        value: ${{ inputs.version }}
+        title: 'Version Updates '
+        changes: |
+          {
+            "deploy/${{ env.ENVIRONMENT }}/kustomization.yaml": {
+              "images[0].newTag": "${{ inputs.version }}"
+            },
+            "deploy/${{ env.ENVIRONMENT }}/values-datadog.yaml" : {
+              "spec.template.spec.containers[0].env[0].value": "${{ inputs.version }}"
+            }
+          }
         commitChange: true
-        message: "build: automatic update - version to ${{ inputs.version }}"
+        message: "build: automatic update - versions to ${{ inputs.version }} [skip ci]"
         branch: ${{ inputs.branch_name }}
         token: ${{ inputs.github_token }}
         createPR: false
