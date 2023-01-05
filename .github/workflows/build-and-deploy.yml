@@ -91,7 +91,7 @@ jobs:
       docker_registry: ${{ steps.docker-build.outputs.docker_registry }}
 
   self-hosted-deploy:
-    if: ${{ inputs.ref_name != 'develop' }}
+    if: ${{ github.ref_name != 'develop' }}
     needs: build
     runs-on: self-hosted
     env:
