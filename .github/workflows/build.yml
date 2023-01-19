@@ -32,7 +32,8 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    # see https://github.com/actions/runner-images#available-images
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v3
