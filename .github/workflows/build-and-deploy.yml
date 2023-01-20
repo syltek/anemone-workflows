@@ -41,7 +41,7 @@ on:
 jobs:
   build:
     # see https://github.com/actions/runner-images#available-images
-    runs-on: ubuntu-22/20230109.1
+    runs-on: ubuntu-20.04
 
     steps:
       # We need fetch-depth: 0 to include the refs. 
