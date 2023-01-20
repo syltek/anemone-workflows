@@ -80,7 +80,7 @@ runs:
 
     - name: Build and push
       # Fixing the version to the minor one. We used to use v2
-      uses: docker/bake-action@v2.2.0
+      uses: docker/bake-action@v2.3.0
       env:
         SERVICE_VERSION: ${{ inputs.version }}
       with:
