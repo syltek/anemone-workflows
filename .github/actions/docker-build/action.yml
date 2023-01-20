@@ -30,7 +30,8 @@ runs:
   steps:
 
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
+      # Fixing the version to the minor one. We used to use v2
+      uses: docker/setup-buildx-action@v2.2.1
 
     - name: Define registry
       id: registry
@@ -78,7 +79,8 @@ runs:
           type=raw,value=${{ inputs.version }}
 
     - name: Build and push
-      uses: docker/bake-action@v2
+      # Fixing the version to the minor one. We used to use v2
+      uses: docker/bake-action@v2.2.0
       env:
         SERVICE_VERSION: ${{ inputs.version }}
       with:
