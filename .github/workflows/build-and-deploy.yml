@@ -77,9 +77,7 @@ jobs:
           version: ${{ steps.version.outputs.version }}
           dockernexus_username: ${{ secrets.dockernexus_username }}
           dockernexus_token: ${{ secrets.dockernexus_token }}
-          github_token: ${{ secrets.ghcr_github_token }}
-          # TODO: We need to replace secrets.ghcr_github_token by steps.generate_token.outputs.token to use the Playtomic Bot credentials
-          #       Right now, we are getting a forbidden and we don't know what permission we are missing.
+          github_token: ${{ steps.generate_token.outputs.token }}
 
       - name: Commit version
         id: commit-version
