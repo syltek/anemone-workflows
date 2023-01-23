@@ -8,7 +8,7 @@ inputs:
   container_repository:
     description: The container repository to store the image
     required: false
-    default: 'ghcr'
+    default: 'nexus'
   dockernexus_username:
     description: The username to use to authenticate to the docker nexus
     required: true
