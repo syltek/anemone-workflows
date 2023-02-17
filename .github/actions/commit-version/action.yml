@@ -30,7 +30,7 @@ runs:
     - name: Update versions in values.yaml and kustomization.yaml
       uses: fjogeleit/yaml-update-action@main
 
-      if: ${{ inputs.branch_name == 'develop' }}
+      if: ${{ inputs.branch_name == 'develop' || inputs.branch_name == 'master' || inputs.branch_name == 'main' }} }}
       with:
         title: 'Version Updates '
         changes: |
