@@ -66,7 +66,7 @@ jobs:
 
       - name: Generate token
         id: generate_token
-        uses: syltek/frontend-workflows/github-app-token@main
+        uses: syltek/frontend-workflows/github-app-token@v0
         with:
           private-key: ${{ secrets.PLAYTOMIC_BOT_APP_PRIVATE_KEY }}
 
