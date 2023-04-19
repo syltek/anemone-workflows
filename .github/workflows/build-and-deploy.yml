@@ -90,22 +90,3 @@ jobs:
     outputs:
       version: ${{ steps.version.outputs.version }}
       docker_registry: ${{ steps.docker-build.outputs.docker_registry }}
-
-  self-hosted-deploy:
-    if: ${{ github.ref_name != 'develop' }}
-    needs: build
-    runs-on: self-hosted
-    env:
-      DOMAIN: 'anemone'
-
-    steps:
-      - uses: actions/checkout@v3
-      - uses: syltek/anemone-workflows/.github/actions/swarm-deploy@main
-        with:
-          version: ${{ needs.build.outputs.version }}
-          replicas: ${{ inputs.replicas }}
-          docker_registry: ${{ needs.build.outputs.docker_registry }}
-          docker_username: ${{ secrets.dockernexus_username }}
-          docker_password: ${{ secrets.dockernexus_token }}
-          aws_docker_host_dev: ${{ secrets.aws_docker_host_dev }}
-          aws_docker_host_pro: ${{ secrets.aws_docker_host_pro }}
