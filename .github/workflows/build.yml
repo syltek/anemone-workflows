@@ -33,7 +33,7 @@ on:
 jobs:
   build:
     # see https://github.com/actions/runner-images#available-images
-    runs-on: ubuntu-22.04
+    runs-on: self-hosted
 
     steps:
       - uses: actions/checkout@v3
