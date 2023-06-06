@@ -52,7 +52,7 @@ jobs:
           fetch-depth: 0
 
       - name: Build and Verify
-        uses: syltek/anemone-workflows/.github/actions/maven-build@main
+        uses: syltek/anemone-workflows/.github/actions/maven-build@self-hosted
         with:
           java_version: ${{ inputs.java_version }}
           nexus_user: ${{ secrets.nexus_user }}
@@ -73,7 +73,7 @@ jobs:
 
       - name: Docker build
         id: docker-build
-        uses: syltek/anemone-workflows/.github/actions/docker-build@main
+        uses: syltek/anemone-workflows/.github/actions/docker-build@self-hosted
         with:
           version: ${{ steps.version.outputs.version }}
           dockernexus_username: ${{ secrets.dockernexus_username }}

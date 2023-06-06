@@ -46,7 +46,7 @@ jobs:
             echo "branch_name=${{ github.base_ref }}" >> $GITHUB_OUTPUT
           fi
 
-      - uses: syltek/anemone-workflows/.github/actions/maven-build@main
+      - uses: syltek/anemone-workflows/.github/actions/maven-build@self-hosted
         with:
           java_version: ${{ inputs.java_version }}
           nexus_user: ${{ secrets.nexus_user }}
