@@ -38,7 +38,7 @@ runs:
         java-version: ${{ inputs.java_version }}
         java-distribution: 'temurin'
         cache: maven
-        maven-version: 3.8.8
+        maven-version: 3.6.3
 
     - name: maven-settings-xml-action
       uses: whelk-io/maven-settings-xml-action@v21
