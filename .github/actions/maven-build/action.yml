@@ -32,12 +32,13 @@ runs:
 
   steps:
 
-    - name: Set up JDK
-      uses: actions/setup-java@v3
+    - name: Setup Maven Action
+      uses: s4u/setup-maven-action@1.7.0
       with:
         java-version: ${{ inputs.java_version }}
-        distribution: 'temurin'
+        java-distribution: 'temurin'
         cache: maven
+        maven-version: 3.8.8
 
     - name: maven-settings-xml-action
       uses: whelk-io/maven-settings-xml-action@v21
