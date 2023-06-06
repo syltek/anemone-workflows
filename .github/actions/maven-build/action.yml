@@ -33,7 +33,7 @@ runs:
   steps:
 
     - name: Setup Maven Action
-      uses: s4u/setup-maven-action@1.7.0
+      uses: s4u/setup-maven-action@v1.7.0
       with:
         java-version: ${{ inputs.java_version }}
         java-distribution: 'temurin'
