@@ -33,7 +33,7 @@ on:
 jobs:
   build:
     # see https://github.com/actions/runner-images#available-images
-    runs-on: self-hosted
+    runs-on: GHRunner-Smallest
 
     steps:
       - uses: actions/checkout@v3
