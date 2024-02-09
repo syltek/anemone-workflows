@@ -27,7 +27,7 @@ runs:
   steps:
     - name: Generate token
       id: generate_token
-      uses: syltek/frontend-workflows/github-app-token@main
+      uses: syltek/gh-actions/playtomic-github-app@v1
       with:
         private-key: ${{ inputs.private_key }}
 
