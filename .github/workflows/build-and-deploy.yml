@@ -51,7 +51,7 @@ jobs:
           fetch-depth: 0
 
       - name: Build and Verify
-        uses: syltek/anemone-workflows/.github/actions/maven-build@feat/Update_versions
+        uses: syltek/anemone-workflows/.github/actions/maven-build@main
         with:
           java_version: ${{ inputs.java_version }}
           nexus_user: ${{ secrets.nexus_user }}
@@ -60,7 +60,7 @@ jobs:
 
       - name: Extract version
         id: version
-        uses: syltek/anemone-workflows/.github/actions/anemone-version@feat/Update_versions
+        uses: syltek/anemone-workflows/.github/actions/anemone-version@main
         with:
           branch_name: ${{ github.ref_name }}
 
@@ -72,7 +72,7 @@ jobs:
 
       - name: Docker build
         id: docker-build
-        uses: syltek/anemone-workflows/.github/actions/docker-build@feat/Update_versions
+        uses: syltek/anemone-workflows/.github/actions/docker-build@main
         with:
           version: ${{ steps.version.outputs.version }}
           dockernexus_username: ${{ secrets.dockernexus_username }}
@@ -81,7 +81,7 @@ jobs:
 
       - name: Commit version
         id: commit-version
-        uses: syltek/anemone-workflows/.github/actions/commit-version@feat/Update_versions
+        uses: syltek/anemone-workflows/.github/actions/commit-version@main
         with:
           version: ${{ steps.version.outputs.version }}
           github_token: ${{ steps.generate_token.outputs.token }}
