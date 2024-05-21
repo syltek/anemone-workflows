@@ -50,6 +50,21 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Check branch name
+        id: check-branch
+        run: |
+          if [[ "${{ github.ref_name }}" =~ ^(develop|main)$ ]]; then
+            echo "Branch is develop or main."
+            echo "::set-output name=should-proceed::true"
+          else
+            echo "Branch is not develop or main. Stopping execution."
+            echo "::set-output name=should-proceed::false"
+          fi
+
+      - name: Stop if branch is not develop or main
+        if: steps.check-branch.outputs.should-proceed == 'false'
+        run: exit 1
+
       - name: Build and Verify
         uses: syltek/anemone-workflows/.github/actions/maven-build@main
         with:
